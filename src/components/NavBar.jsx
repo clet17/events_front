@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { ServicesContext } from "../../context/servicesContext";
-import { AuthContext } from "../../context/authContext";
+import { ServicesContext } from "../context/servicesContext";
+import { AuthContext } from "../context/authContext";
 
 const NavBar = () => {
   const [services, setServices] = useContext(ServicesContext)
-  const [isAuthenticated, setIsAuthenticated] = useContext(AuthContext)
+  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext)
   return (
     <>
     <h1>Hello there is {services.length} events</h1>

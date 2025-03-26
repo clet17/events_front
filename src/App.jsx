@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ServicesContext } from '../context/servicesContext'
+import { ServicesContext } from './context/servicesContext'
 import './App.css'
 
 
