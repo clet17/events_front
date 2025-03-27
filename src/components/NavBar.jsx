@@ -5,7 +5,7 @@ import { AuthContext } from "../context/authContext";
 
 const NavBar = () => {
   const [services, setServices] = useContext(ServicesContext)
-  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext)
+  const {isAuthenticated, setIsAuthenticated, logout} = useContext(AuthContext)
   return (
     <>
     <h1>Hello there is {services.length} events</h1>
@@ -21,7 +21,7 @@ const NavBar = () => {
                     : (
                         <>
                             <Link to='/profile'><li>Profile</li></Link>
-                            <Link to='/logout'><li>logout</li></Link>
+                            <Link onClick={logout}><li>logout</li></Link>
                         </>
                     )
                     }
