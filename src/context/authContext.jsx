@@ -1,16 +1,25 @@
 import { useState, createContext, useEffect } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode'
 
 export const AuthContext = createContext(null)
 
 export const AuthController = ({children}) => {
     let navigate = useNavigate()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [userInfo , setUserInfo] = useState(null)
+    const [tokenStorage, setTokenStorage] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    let token = localStorage.getItem('token')
 
     useEffect(() => {
-        let token = localStorage.getItem('token')
+        
         if(token){
+            const decotedToken = jwtDecode(token)
+            setTokenStorage(token)
+            setUserInfo(decotedToken)
             setIsAuthenticated(true)
         }
     }, [])
@@ -22,6 +31,8 @@ export const AuthController = ({children}) => {
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token)
                 setIsAuthenticated(true)
+                setTokenStorage(token)
+                setLoading(false)
                 alert(response.data.message)
                 navigate('/')
             }
@@ -34,9 +45,12 @@ export const AuthController = ({children}) => {
     }
 
     const logout = async () => {
+        //let navigate = useNavigate()
+
         try{
             localStorage.removeItem('token')
             setIsAuthenticated(false)
+            navigate('/login')
         }
         catch (err) {
             console.log(err)
@@ -44,7 +58,7 @@ export const AuthController = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, handleLogin, logout}}>
+        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, handleLogin, logout, userInfo, tokenStorage, loading, setLoading}}>
             {children}
         </AuthContext.Provider>
     )
