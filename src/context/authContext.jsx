@@ -31,7 +31,7 @@ export const AuthController = ({children}) => {
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token)
                 setIsAuthenticated(true)
-                setTokenStorage(token)
+                setTokenStorage(response.data.token)
                 setLoading(false)
                 alert(response.data.message)
                 navigate('/')

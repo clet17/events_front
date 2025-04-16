@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import axios from "axios";
 
 
 const ServiceDetails = () => {
@@ -27,13 +28,27 @@ const ServiceDetails = () => {
     }, [])
     
     return (
-        <>
-            {!loading && service && (<div>
-                {/* a faire */}
-                <h1>Les details de services</h1>
-            </div>)}
-        </>
-    )
+        <div className="flex justify-center p-6">
+            {!loading && service && (
+                <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+                    {/* Image placeholder or a default image */}
+                    <div className="w-full h-48 bg-gray-300 flex justify-center items-center text-white text-4xl font-bold">
+                        Service Image
+                    </div>
+                    <div className="px-6 py-4">
+                        <div className="font-bold text-xl mb-2">{service.title}</div>
+                        <p className="text-gray-700 text-base mb-2">{service.description}</p>
+                        <p className="text-lg font-bold text-blue-600">{service.price}€</p>
+                        <p className="text-sm text-gray-500">Catégorie: {service.category}</p>
+                        <p className="text-sm text-gray-500">Adresse: {service.address}</p>
+                        <p className={service.awaitbility ? "text-green-600 font-semibold" : "text-red-600 font-semibold"}>
+                            {service.awaitbility ? "✅ Disponible" : "❌ Indisponible"}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default ServiceDetails

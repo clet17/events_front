@@ -22,6 +22,7 @@ const NavBar = () => {
                         <>
                             <Link to='/addservice'><li>Ajouter</li></Link>
                             <Link to='/profile'><li>Profile</li></Link>
+                            <Link to='/users'><li>Users</li></Link>
                             <li onClick={logout} className="cursor-pointer">logout</li>
                         </>
                     )

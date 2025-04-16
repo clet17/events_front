@@ -16,7 +16,7 @@ const Profile = () => {
         try{
             const response = await axios.get('http://localhost:8000/api/profile', {
                 headers : {
-                    'Authorization' : `Bearer ${token}`
+                    'Authorization' : `Bearer ${tokenStorage}`
                 }
             })
             if(response.status === 200){
@@ -32,7 +32,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if(token){
+        if(tokenStorage){
             fetchUserProfile()
         }
     }, []) 
