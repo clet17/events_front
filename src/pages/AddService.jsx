@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
+import { ServicesContext } from "../context/servicesContext";
 
 const AddService = () => {
+    let navigate = useNavigate()
     const { tokenStorage, userInfo } = useContext(AuthContext);
+    const {fetchServices} = useContext(ServicesContext)
 
     const [serviceInfo, setServiceInfo] = useState({
         title: '',
@@ -40,11 +43,13 @@ const AddService = () => {
             });
             if(response.status === 201){
                 console.log('Service ajouté:', response.data.message);
-                Navigate(`/sercice/${response.data.newService._id}`)
+                navigate(`/service/${response.data.newService._id}`)
             }
            
         } catch (err) {
             console.log(err);
+        } finally{
+            fetchServices()
         }
     };
 

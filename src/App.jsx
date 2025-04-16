@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 
 function App() {
-  const [services, setServices] = useContext(ServicesContext)
+  const {services, setServices} = useContext(ServicesContext)
   const {userInfo} = useContext(AuthContext)
 
   const fetchAPi = async () =>  {

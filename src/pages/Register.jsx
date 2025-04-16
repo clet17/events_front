@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import { AuthContext } from "../context/authContext";
 
 const Register = () => {
     let navigate = useNavigate()
@@ -9,6 +10,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [image, setImage] = useState(null)
+    const { handleRegisterSuccess } = useContext(AuthContext)
 
     const handleRegistration = async (e) => {
         e.preventDefault()
@@ -30,7 +32,10 @@ const Register = () => {
             } )
 
             if(newUser.status === 201){
-                alert(newUser.data)
+                // console.log('newUser:', newUser);
+                // console.log('newUser.data:', newUser?.data);
+                alert(newUser.data.message)
+                handleRegisterSuccess(newUser.data.token)
                 navigate('/')
             }
         }

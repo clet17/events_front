@@ -29,7 +29,7 @@ export const ServicesController = ({children}) => {
     }, [])
 
     return(
-        <ServicesContext.Provider value={[services, setServices]} >
+        <ServicesContext.Provider value={{services, setServices, fetchServices}} >
             {!loading && children}
         </ServicesContext.Provider>
     )

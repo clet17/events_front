@@ -44,6 +44,16 @@ export const AuthController = ({children}) => {
         }
     }
 
+    //pour la gestion du token etc au register
+    const handleRegisterSuccess = (token) => {
+        localStorage.setItem('token', token)
+        const decodedToken = jwtDecode(token)
+        setUserInfo(decodedToken)
+        setTokenStorage(token)
+        setIsAuthenticated(true)
+        setLoading(false)
+    }
+
     const logout = async () => {
         //let navigate = useNavigate()
 
@@ -58,7 +68,7 @@ export const AuthController = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, handleLogin, logout, userInfo, tokenStorage, loading, setLoading}}>
+        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, handleLogin, logout, userInfo, tokenStorage, loading, setLoading, handleRegisterSuccess}}>
             {children}
         </AuthContext.Provider>
     )
