@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
+import { Navigate } from "react-router";
 
 const AddService = () => {
     const { tokenStorage, userInfo } = useContext(AuthContext);
@@ -10,21 +11,38 @@ const AddService = () => {
         description: '',
         price: '',
         category: '',
-        adress: '',
-        availabilty: '',
-        userID: userInfo.id
+        address: '',
+        awaitbility: '',
+        image: null
     });
 
     const handleServiceSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted")
+
+        const formData = new FormData()
+        formData.append('title', serviceInfo.title)
+        formData.append('description', serviceInfo.description)
+        formData.append('price', serviceInfo.price)
+        formData.append('category', serviceInfo.category)
+        formData.append('address',serviceInfo.address)
+        formData.append('awaitbility', serviceInfo.awaitbility)
+        if(serviceInfo.image){
+            formData.append('image', serviceInfo.image)
+        }
+
+
         try {
-            const response = await axios.post('http://localhost:8000/api/services', serviceInfo, {
+            const response = await axios.post('http://localhost:8000/api/services', formData, {
                 headers: {
-                    'Authorization': `Bearer ${tokenStorage}`
+                    'Authorization': `Bearer ${tokenStorage}`,
+                    'Content-Type' : 'mutlipart/form-data'
                 }
             });
-            console.log('Service ajouté:', response.data);
+            if(response.status === 201){
+                console.log('Service ajouté:', response.data.message);
+                Navigate(`/sercice/${response.data.newService._id}`)
+            }
+           
         } catch (err) {
             console.log(err);
         }
@@ -39,6 +57,7 @@ const AddService = () => {
                     <label className="block text-sm font-medium text-gray-700">Titre</label>
                     <input
                         type="text"
+                        id="title"
                         className="mt-1 block w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={e => setServiceInfo({ ...serviceInfo, title: e.target.value })}
                     />
@@ -76,7 +95,7 @@ const AddService = () => {
                     <input
                         type="text"
                         className="mt-1 block w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        onChange={e => setServiceInfo({ ...serviceInfo, adress: e.target.value })}
+                        onChange={e => setServiceInfo({ ...serviceInfo, address: e.target.value })}
                     />
                 </div>
 
@@ -85,7 +104,16 @@ const AddService = () => {
                     <input
                         type="text"
                         className="mt-1 block w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        onChange={e => setServiceInfo({ ...serviceInfo, availabilty: e.target.value })}
+                        onChange={e => setServiceInfo({ ...serviceInfo, awaitbility: e.target.value })}
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Image</label>
+                    <input
+                        type="file"
+                        className="mt-1 block w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        onChange={e => setServiceInfo({ ...serviceInfo, image: e.target.files[0] })}
                     />
                 </div>
 
